@@ -8,6 +8,19 @@ export const getTransit = async () => {
     method: "GET",
     url: process.env.GTFS_STATIC_URL,
     responseType: "stream",
+    onDownloadProgress: (progress) => {
+      console.log(
+        "Downloading file, done: ",
+        (progress.progress * 100).toFixed(2),
+        " percent at rate: ",
+        progress.rate / (1024 * 1024),
+        " MB/s, loaded: ",
+        progress.loaded / (1024 * 1024),
+        "MBs total : ",
+        progress.total / (1024 * 1024),
+        " MBs"
+      );
+    },
   });
 
   const tempPath = path.join(__dirname, "../../static/google_transit_temp.zip");
